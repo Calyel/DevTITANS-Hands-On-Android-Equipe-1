@@ -42,13 +42,23 @@ fun PlainTextApp(
                 navigateToList = {}
             )
         }
+        composable<Screen.List> {
+
+            ListView(
+                navigateToEdit = { password ->
+                    appState.navigateToEditList(password)
+                }
+            )
+        }
         composable<Screen.EditList>(
             typeMap = mapOf(typeOf<PasswordInfo>() to parcelableType<PasswordInfo>())
         ) {
             val args = it.toRoute<Screen.EditList>()
             EditList(
                 args,
-                navigateBack = {},
+                navigateBack = {
+                    appState.navController.popBackStack()
+                },
                 savePassword = { password -> Unit }
             )
         }

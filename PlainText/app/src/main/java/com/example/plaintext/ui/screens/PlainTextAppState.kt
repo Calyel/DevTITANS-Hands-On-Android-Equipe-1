@@ -57,19 +57,23 @@ class JetcasterAppState(
 ) {
 
     fun checkRoute(route: String): Boolean {
-        val currentRoute = navController.currentBackStackEntry?.destination?.route.toString()
+        val currentRoute =
+            navController.currentBackStackEntry?.destination?.route.toString()
 
         return currentRoute != route
     }
 
-    fun navigateToHello(name: String?){
+    fun navigateToHello(name: String?) {
         navController.navigate(Screen.Hello(name))
     }
 
-    fun navigateToLogin(){
+    fun navigateToLogin() {
         navController.navigate(Screen.Login)
     }
 
+    fun navigateToEditList(password: PasswordInfo) {
+        navController.navigate(Screen.EditList(password))
+    }
 }
 
 /**
