@@ -5,7 +5,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -69,7 +68,7 @@ class SensorsViewModel @Inject constructor(
 
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
-            viewModelScope.launch() {
+            viewModelScope.launch {
                 // Update the sensor data
                 when (it.sensor.type) {
                     Sensor.TYPE_ACCELEROMETER -> sensorsState = sensorsState.copy(
