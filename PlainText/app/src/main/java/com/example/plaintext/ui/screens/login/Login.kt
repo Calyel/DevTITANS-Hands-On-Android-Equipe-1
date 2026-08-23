@@ -70,7 +70,159 @@ fun Login_screen(
     navigateToList: () -> Unit,
     viewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    // Obtém o estado das preferências
+    val preferencesState = viewModel.preferencesState
 
+    // Estados locais para os campos de texto
+    var loginText by rememberSaveable { mutableStateOf("") }
+    var passwordText by rememberSaveable { mutableStateOf("") }
+    var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
+    var loginError by rememberSaveable { mutableStateOf(false) }
+    var showPasswordError by rememberSaveable { mutableStateOf(false) }
+
+    // Contexto para Toast
+    val context = LocalContext.current
+
+    // Preenche os campos automaticamente se a opção "preencher" estiver ativa
+    LaunchedEffect(preferencesState.preencher) {
+        if (preferencesState.preencher) {
+            loginText = preferencesState.login
+            passwordText = preferencesState.password
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            TopBarComponent(
+                navigateToSettings = navigateToSettings,
+                navigateToSensores = null // ou adicione a navegação para sensores se existir
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Logo ou imagem
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground), // Substitua pelo seu logo
+                contentDescription = "Logo",
+                modifier = Modifier
+                    .height(120.dp)
+                    .padding(16.dp)
+            )
+
+            Text(
+                text = "PlainText",
+                fontSize = 32.sp,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = "The most secure password manager",
+                fontSize = 16.sp,
+                color = Color.Gray,
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+
+            // Campo de Login
+            OutlinedTextField(
+                value = loginText,
+                onValueChange = {
+                    loginText = it
+                    loginError = false
+                },
+                label = { Text("Login") },
+                isError = loginError,
+                supportingText = {
+                    if (loginError) {
+                        Text("Login inválido", color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Campo de Senha
+            OutlinedTextField(
+                value = passwordText,
+                onValueChange = {
+                    passwordText = it
+                    showPasswordError = false
+                },
+                label = { Text("Senha") },
+                isError = showPasswordError,
+                supportingText = {
+                    if (showPasswordError) {
+                        Text("Senha inválida", color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                visualTransformation = if (isPasswordVisible) {
+                    PasswordVisualTransformation()
+                } else {
+                    PasswordVisualTransformation()
+                },
+                trailingIcon = {
+                    // Aqui você pode adicionar um ícone para mostrar/ocultar a senha
+                },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Checkbox "Salvar informação de login" (ou usar o switch das preferências)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = preferencesState.preencher,
+                    onCheckedChange = { checked ->
+                        viewModel.updatePreencher(checked)
+                        if (checked) {
+                            loginText = preferencesState.login
+                            passwordText = preferencesState.password
+                        }
+                    }
+                )
+                Text(
+                    text = "Salvar informação de login",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Botão Entrar
+            Button(
+                onClick = {
+                    // Valida as credenciais usando o ViewModel
+                    if (viewModel.checkCredentials(loginText, passwordText)) {
+                        // Credenciais válidas - navega para a lista
+                        navigateToList()
+                    } else {
+                        // Credenciais inválidas
+                        loginError = true
+                        showPasswordError = true
+                        Toast.makeText(context, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text("ENTRAR", fontSize = 18.sp)
+            }
+        }
+    }
 }
 
 @Composable
@@ -80,7 +232,6 @@ fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>) {
             onDismissRequest = {
                 shouldShowDialog.value = false
             },
-
             title = { Text(text = "Sobre") },
             text = { Text(text = "PlainText Password Manager v1.0") },
             confirmButton = {

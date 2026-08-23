@@ -38,8 +38,13 @@ fun PlainTextApp(
         }
         composable<Screen.Login>{
             Login_screen(
-                navigateToSettings = {},
-                navigateToList = {}
+                navigateToSettings = {
+                    // Navega para a tela de Preferências
+                    appState.navigateToPreferences()
+                },
+                navigateToList = {
+                    // Navega para a tela de Lista (quando implementada)
+                }
             )
         }
         composable<Screen.EditList>(
@@ -51,6 +56,10 @@ fun PlainTextApp(
                 navigateBack = {},
                 savePassword = { password -> Unit }
             )
+        }
+        // NOVA ROTA PARA PREFERÊNCIAS
+        composable<Screen.Preferences> {
+            SettingsScreen(navController = appState.navController)
         }
     }
 }
