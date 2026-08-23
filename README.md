@@ -17,12 +17,14 @@ Este é o projeto Hands-On de Android da equipe 1, desenvolvido como parte do cu
 - **ViewModel** - Gerenciamento de estado
 
 ## 📂 Estrutura do Projeto
-PlainText/
-├── app/src/main/java/com/example/plaintext/
-│ ├── data/ # Camada de dados (Room, DAO, Repositórios)
-│ ├── ui/ # Interface (telas, ViewModels, temas)
-│ └── utils/ # Utilitários e navegação
 
+```
+PlainText/
+└── app/src/main/java/com/example/plaintext/
+    ├── data/          # Camada de dados (Room, DAO, Repositórios)
+    ├── ui/            # Interface (telas, ViewModels, temas)
+    └── utils/         # Utilitários e navegação
+```
 
 ## 🚀 Como Executar
 1. Abra o projeto no Android Studio.
