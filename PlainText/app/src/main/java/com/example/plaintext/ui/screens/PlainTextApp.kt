@@ -53,5 +53,9 @@ fun PlainTextApp(
                 navigateToSensors = { appState.navController.navigate(Screen.sensors) }
             )
         }
+        // NOVA ROTA PARA PREFERÊNCIAS
+        composable<Screen.Preferences> {
+            SettingsScreen(navController = appState.navController)
+        }
     }
 }

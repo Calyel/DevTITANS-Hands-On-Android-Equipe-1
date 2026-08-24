@@ -1,6 +1,5 @@
 package com.example.plaintext.ui.screens.preferences
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.navigation.NavHostController
 import com.example.plaintext.ui.screens.login.TopBarComponent
 import com.example.plaintext.ui.screens.util.PreferenceInput
 import com.example.plaintext.ui.screens.util.PreferenceItem
-import com.example.plaintext.ui.viewmodel.PreferencesState
 import com.example.plaintext.ui.viewmodel.PreferencesViewModel
 
 @Composable
@@ -66,8 +64,9 @@ fun SettingsContent(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())){
-
+            .verticalScroll(rememberScrollState())
+    ) {
+        // Campo para o Login
         PreferenceInput(
             title = "Preencher Login",
             label = "Login",
@@ -77,6 +76,7 @@ fun SettingsContent(
             onLoginChange(it)
         }
 
+        // Campo para a Senha
         PreferenceInput(
             title = "Setar Senha",
             label = "Label",
@@ -86,6 +86,7 @@ fun SettingsContent(
             onPasswordChange(it)
         }
 
+        // Switch para "Preencher Login"
         PreferenceItem(
             title = "Preencher Login",
             summary = "Preencher login na tela inicial",

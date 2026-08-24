@@ -248,7 +248,7 @@ fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>) {
         AlertDialog(
             onDismissRequest = {
                 shouldShowDialog.value = false
-            },
+            }
             text = { Text(text = "PlainText Password Manager v1.0") },
             confirmButton = {
                 TextButton(onClick = { shouldShowDialog.value = false }) {
