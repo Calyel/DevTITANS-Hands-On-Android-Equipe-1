@@ -36,6 +36,7 @@ import com.example.plaintext.ui.theme.PlainTextTheme
 import com.example.plaintext.ui.viewmodel.ListViewModel
 import com.example.plaintext.ui.viewmodel.ListViewState
 
+
 @Composable
 fun ListView(
     navigateToEdit: (password: PasswordInfo) -> Unit,
@@ -77,7 +78,7 @@ fun AddButton(onClick: () -> Unit) {
         Icon(Icons.Filled.Add, "Small floating action button.")
     }
 }
-
+ 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListItemContent(
@@ -89,7 +90,7 @@ fun ListItemContent(
             !listState.isCollected -> {
                 LoadingScreen()
             }
-
+ 
             else -> {
                 LazyColumn(
                     modifier = modifier
@@ -105,7 +106,7 @@ fun ListItemContent(
             }
         }
 }
-
+ 
 @Composable
 fun LoadingScreen() {
     Row(
@@ -116,7 +117,7 @@ fun LoadingScreen() {
         Text("Carregando")
     }
 }
-
+ 
 @Composable
 fun ListItem(
     password: PasswordInfo,
@@ -124,7 +125,7 @@ fun ListItem(
 ) {
     val title = password.name
     val subTitle = password.login
-
+ 
     Row(
         modifier = Modifier
             .fillMaxWidth()
