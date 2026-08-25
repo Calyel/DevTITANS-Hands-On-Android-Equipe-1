@@ -31,9 +31,10 @@ import com.example.plaintext.ui.theme.PlainTextTheme
 fun Login_screen(
     navigateToSettings: () -> Unit,
     navigateToList: (name: String) -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: PreferencesViewModel = hiltViewModel()
 ) {
-    val loginState = viewModel.toLoginState(navigateToSettings, navigateToList)
+    val loginState = viewModel.toLoginState(navigateToSettings, navigateToList, navigateToLogin)
     LoginScreenContent(loginState)
 }
 
@@ -51,7 +52,8 @@ fun LoginScreenContent(
         topBar = {
             TopBarComponent(
                 navigateToSettings = loginState.navigateToSettings,
-                navigateToSensores = { /* No sensors for now */ }
+                navigateToSensores = { /* No sensors for now */ },
+                navigateToLogin = loginState.navigateToLogin
             )
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -264,6 +266,7 @@ fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>) {
 fun TopBarComponent(
     navigateToSettings: (() -> Unit?)? = null,
     navigateToSensores: (() -> Unit?)? = null,
+    navigateToLogin: (() -> Unit?)? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val shouldShowDialog = remember { mutableStateOf(false) }
@@ -280,7 +283,7 @@ fun TopBarComponent(
             actionIconContentColor = Color.White
         ),
         actions = {
-            if (navigateToSettings != null && navigateToSensores != null) {
+            if (navigateToSettings != null || navigateToSensores != null || navigateToLogin != null) {
                 IconButton(onClick = { expanded = true }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Menu")
                 }
@@ -288,24 +291,46 @@ fun TopBarComponent(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Configurações") },
-                        onClick = {
-                            navigateToSettings()
-                            expanded = false
-                        },
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    if (navigateToSettings != null) {
+                        DropdownMenuItem(
+                            text = { Text("Configurações") },
+                            onClick = {
+                                navigateToSettings()
+                                expanded = false
+                            },
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                    if (navigateToSensores != null) {
+                        DropdownMenuItem(
+                            text = { Text("Sensores") },
+                            onClick = {
+                                navigateToSensores()
+                                expanded = false
+                            },
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                     DropdownMenuItem(
                         text = {
                             Text("Sobre")
                         },
                         onClick = {
-                            shouldShowDialog.value = true;
+                            shouldShowDialog.value = true
                             expanded = false
                         },
                         modifier = Modifier.padding(8.dp)
                     )
+                    if (navigateToLogin != null) {
+                        DropdownMenuItem(
+                            text = { Text("Sair") },
+                            onClick = {
+                                navigateToLogin()
+                                expanded = false
+                            },
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
             }
         }
@@ -322,6 +347,7 @@ fun LoginScreenPreview() {
                 login = "devtitans",
                 navigateToSettings = {},
                 navigateToList = {},
+                navigateToLogin = {},
                 checkCredentials = { _, _ -> true }
             )
         )

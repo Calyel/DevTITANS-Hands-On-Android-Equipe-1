@@ -41,6 +41,7 @@ fun ListView(
     navigateToEdit: (password: PasswordInfo) -> Unit,
     navigateToSettings: () -> Unit,
     navigateToSensors: () -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
     val listState = viewModel.listViewState
@@ -49,7 +50,8 @@ fun ListView(
         topBar = {
             TopBarComponent(
                 navigateToSettings = navigateToSettings,
-                navigateToSensores = navigateToSensors
+                navigateToSensores = navigateToSensors,
+                navigateToLogin = navigateToLogin
             )
         },
         floatingActionButton = {

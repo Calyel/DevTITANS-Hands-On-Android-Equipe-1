@@ -28,8 +28,9 @@ fun PlainTextApp(
         }
         composable<Screen.Login>{
             Login_screen(
-                navigateToSettings = { appState.navController.navigate(Screen.Preferences) },
-                navigateToList = { name -> appState.navController.navigate(Screen.List) }
+                navigateToSettings = { appState.navigateToPreferences() },
+                navigateToList = { name -> appState.navigateToList() },
+                navigateToLogin = { appState.navigateToLogin() }
             )
         }
         composable<Screen.Preferences>{
@@ -48,9 +49,10 @@ fun PlainTextApp(
         }
         composable<Screen.List> {
             com.example.plaintext.ui.screens.list.ListView(
-                navigateToEdit = { password -> appState.navController.navigate(Screen.EditList(password)) },
-                navigateToSettings = { appState.navController.navigate(Screen.Preferences) },
-                navigateToSensors = { appState.navController.navigate(Screen.sensors) }
+                navigateToEdit = { password -> appState.navigateToEditList(password) },
+                navigateToSettings = { appState.navigateToPreferences() },
+                navigateToSensors = { appState.navigateToSensors() },
+                navigateToLogin = { appState.navigateToLogin() }
             )
         }
         // NOVA ROTA PARA PREFERÊNCIAS

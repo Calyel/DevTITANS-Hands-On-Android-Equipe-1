@@ -20,6 +20,7 @@ data class LoginState(
     val login: String,
     val navigateToSettings: () -> Unit,
     val navigateToList: (name: String) -> Unit,
+    val navigateToLogin: () -> Unit,
     val checkCredentials: (login: String, password: String) -> Boolean,
 )
 
@@ -57,13 +58,15 @@ class PreferencesViewModel @Inject constructor(
 
     fun toLoginState(
         navigateToSettings: () -> Unit,
-        navigateToList: (name: String) -> Unit
+        navigateToList: (name: String) -> Unit,
+        navigateToLogin: () -> Unit
     ): LoginState {
         return LoginState(
             preencher = preferencesState.preencher,
             login = preferencesState.login,
             navigateToSettings = navigateToSettings,
             navigateToList = navigateToList,
+            navigateToLogin = navigateToLogin,
             checkCredentials = ::checkCredentials
         )
     }
