@@ -52,7 +52,8 @@ class JetcasterAppState(
 ) {
 
     fun checkRoute(route: String): Boolean {
-        val currentRoute = navController.currentBackStackEntry?.destination?.route.toString()
+        val currentRoute =
+            navController.currentBackStackEntry?.destination?.route.toString()
 
         return currentRoute != route
     }

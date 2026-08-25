@@ -33,6 +33,7 @@ fun PlainTextApp(
                 navigateToList = { appState.navigateToList() },
             )
         }
+
         composable<Screen.Preferences>{
             SettingsScreen(navController = appState.navController)
         }
