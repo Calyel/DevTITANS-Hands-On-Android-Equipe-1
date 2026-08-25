@@ -64,6 +64,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.plaintext.ui.theme.PlainTextTheme
 import com.example.plaintext.ui.viewmodel.LoginViewModel
 import com.example.plaintext.ui.viewmodel.PreferencesViewModel
+import com.example.plaintext.ui.viewmodel.LoginState
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.plaintext.ui.theme.PlainTextTheme
 
 private val DarkBrown = Color(0xFF1B120F)
 private val WarmBrown = Color(0xFF2A1A14)
@@ -265,6 +268,7 @@ private fun LoginScreenContent(
     }
 }
 
+
 @Composable
 private fun LoginBranding() {
     Column(
@@ -383,8 +387,9 @@ fun MyAlertDialog(shouldShowDialog: MutableState<Boolean>) {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopBarComponent(
-    navigateToSettings: (() -> Unit)? = null,
-    navigateToSensores: (() -> Unit)? = null,
+    navigateToSettings: (() -> Unit?)? = null,
+    navigateToSensores: (() -> Unit?)? = null,
+    navigateToLogin: (() -> Unit?)? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val shouldShowDialog = remember { mutableStateOf(false) }
@@ -395,9 +400,13 @@ fun TopBarComponent(
 
     TopAppBar(
         title = { Text("PlainText", color = Color.White) },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBrown),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
         actions = {
-            if (navigateToSettings != null) {
+            if (navigateToSettings != null || navigateToSensores != null || navigateToLogin != null) {
                 IconButton(onClick = { expanded = true }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.White)
                 }
@@ -405,13 +414,16 @@ fun TopBarComponent(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Configurações") },
-                        onClick = {
-                            navigateToSettings()
-                            expanded = false
-                        },
-                    )
+                    if (navigateToSettings != null) {
+                        DropdownMenuItem(
+                            text = { Text("Configurações") },
+                            onClick = {
+                                navigateToSettings()
+                                expanded = false
+                            },
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                     if (navigateToSensores != null) {
                         DropdownMenuItem(
                             text = { Text("Sensores") },
@@ -419,15 +431,28 @@ fun TopBarComponent(
                                 navigateToSensores()
                                 expanded = false
                             },
+                            modifier = Modifier.padding(8.dp)
                         )
                     }
                     DropdownMenuItem(
-                        text = { Text("Sobre") },
+                        text = {
+                            Text("Sobre")
+                        },
                         onClick = {
                             shouldShowDialog.value = true
                             expanded = false
                         },
                     )
+                    if (navigateToLogin != null) {
+                        DropdownMenuItem(
+                            text = { Text("Sair") },
+                            onClick = {
+                                navigateToLogin()
+                                expanded = false
+                            },
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
             }
         },
@@ -439,14 +464,14 @@ fun TopBarComponent(
 fun LoginScreenPreview() {
     PlainTextTheme {
         LoginScreenContent(
-            login = "devtitans",
-            password = "",
-            preencher = false,
-            onLoginChange = {},
-            onPasswordChange = {},
-            onPreencherChange = {},
-            onSubmit = {},
-            navigateToSettings = {},
+            loginState = LoginState(
+                preencher = true,
+                login = "devtitans",
+                navigateToSettings = {},
+                navigateToList = {},
+                navigateToLogin = {},
+                checkCredentials = { _, _ -> true }
+            )
         )
     }
 }

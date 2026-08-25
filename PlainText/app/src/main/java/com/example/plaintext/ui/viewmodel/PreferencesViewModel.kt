@@ -15,6 +15,15 @@ data class PreferencesState(
     var preencher: Boolean = true        // Valor padrão (switch ligado)
 )
 
+data class LoginState(
+    val preencher: Boolean,
+    val login: String,
+    val navigateToSettings: () -> Unit,
+    val navigateToList: (name: String) -> Unit,
+    val navigateToLogin: () -> Unit,
+    val checkCredentials: (login: String, password: String) -> Boolean,
+)
+
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
     handle: SavedStateHandle,
@@ -45,5 +54,20 @@ class PreferencesViewModel @Inject constructor(
     // Função para validar credenciais (usada na tela de login)
     fun checkCredentials(login: String, password: String): Boolean {
         return login == preferencesState.login && password == preferencesState.password
+    }
+
+    fun toLoginState(
+        navigateToSettings: () -> Unit,
+        navigateToList: (name: String) -> Unit,
+        navigateToLogin: () -> Unit
+    ): LoginState {
+        return LoginState(
+            preencher = preferencesState.preencher,
+            login = preferencesState.login,
+            navigateToSettings = navigateToSettings,
+            navigateToList = navigateToList,
+            navigateToLogin = navigateToLogin,
+            checkCredentials = ::checkCredentials
+        )
     }
 }

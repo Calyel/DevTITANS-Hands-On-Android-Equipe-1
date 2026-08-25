@@ -1,17 +1,12 @@
 package com.example.plaintext.ui.screens
 
 import android.content.Context
-import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.plaintext.data.model.PasswordInfo
 import kotlinx.serialization.Serializable
@@ -20,7 +15,7 @@ import kotlinx.serialization.Serializable
 sealed class Screen() {
 
     @Serializable
-    object Login;
+    object Login
 
     @Serializable
     data class Hello(
@@ -28,10 +23,10 @@ sealed class Screen() {
     )
 
     @Serializable
-    object Preferences;
+    object Preferences
 
     @Serializable
-    object List;
+    object List
 
     @Serializable
     data class EditList(
@@ -39,7 +34,7 @@ sealed class Screen() {
     );
 
     @Serializable
-    object sensors;
+    object sensors
 }
 
 @Composable
@@ -63,21 +58,40 @@ class JetcasterAppState(
     }
 
     fun navigateToHello(name: String?){
-        navController.navigate(Screen.Hello(name))
+        if (checkRoute(Screen.Hello::class.java.name)) {
+            navController.navigate(Screen.Hello(name))
+        }
     }
 
     fun navigateToLogin(){
-        navController.navigate(Screen.Login)
-    }
-
-    fun navigateToPreferences(){
-        navController.navigate(Screen.Preferences)
+        if (checkRoute(Screen.Login::class.java.name)) {
+            navController.navigate(Screen.Login)
+        }
     }
 
     fun navigateToList(){
-        navController.navigate(Screen.List)
+        if (checkRoute(Screen.List::class.java.name)) {
+            navController.navigate(Screen.List)
+        }
     }
 
+    fun navigateToPreferences(){
+        if (checkRoute(Screen.Preferences::class.java.name)) {
+            navController.navigate(Screen.Preferences)
+        }
+    }
+
+    fun navigateToSensors(){
+        if (checkRoute(Screen.sensors::class.java.name)) {
+            navController.navigate(Screen.sensors)
+        }
+    }
+
+    fun navigateToEditList(password: PasswordInfo){
+        if (checkRoute(Screen.EditList::class.java.name)) {
+            navController.navigate(Screen.EditList(password))
+        }
+    }
 }
 
 /**

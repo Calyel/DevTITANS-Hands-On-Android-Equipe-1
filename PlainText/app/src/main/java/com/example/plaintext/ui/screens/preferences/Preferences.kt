@@ -1,10 +1,13 @@
 package com.example.plaintext.ui.screens.preferences
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,16 +19,35 @@ import com.example.plaintext.ui.screens.util.PreferenceItem
 import com.example.plaintext.ui.viewmodel.PreferencesViewModel
 
 @Composable
-fun SettingsScreen(
-    navController: NavHostController?,
-    viewModel: PreferencesViewModel = hiltViewModel()
+fun SettingsScreen(navController: NavHostController?,
+                   viewModel: PreferencesViewModel = hiltViewModel()
+){
+    SettingsScreenContent(
+        state = viewModel.preferencesState,
+        onLoginChange = viewModel::updateLogin,
+        onPasswordChange = viewModel::updatePassword,
+        onPreencherChange = viewModel::updatePreencher
+    )
+}
+
+@Composable
+fun SettingsScreenContent(
+    state: PreferencesState,
+    onLoginChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPreencherChange: (Boolean) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBarComponent() }
-    ) { padding ->
+        topBar = {
+            TopBarComponent()
+        }
+    ){ padding ->
         SettingsContent(
             modifier = Modifier.padding(padding),
-            viewModel = viewModel
+            state = state,
+            onLoginChange = onLoginChange,
+            onPasswordChange = onPasswordChange,
+            onPreencherChange = onPreencherChange
         )
     }
 }
@@ -33,11 +55,11 @@ fun SettingsScreen(
 @Composable
 fun SettingsContent(
     modifier: Modifier = Modifier,
-    viewModel: PreferencesViewModel
+    state: PreferencesState,
+    onLoginChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPreencherChange: (Boolean) -> Unit
 ) {
-    // Obtém o estado atual do ViewModel
-    val state = viewModel.preferencesState
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -48,20 +70,20 @@ fun SettingsContent(
         PreferenceInput(
             title = "Preencher Login",
             label = "Login",
-            fieldValue = state.login, // Valor atual do estado
+            fieldValue = state.login,
             summary = "Preencher login na tela inicial"
-        ) { newLogin ->
-            viewModel.updateLogin(newLogin) // Atualiza o ViewModel
+        ){
+            onLoginChange(it)
         }
 
         // Campo para a Senha
         PreferenceInput(
             title = "Setar Senha",
-            label = "Senha",
-            fieldValue = state.password, // Valor atual do estado
+            label = "Label",
+            fieldValue = state.password,
             summary = "Senha para entrar no sistema"
-        ) { newPassword ->
-            viewModel.updatePassword(newPassword) // Atualiza o ViewModel
+        ){
+            onPasswordChange(it)
         }
 
         // Switch para "Preencher Login"
@@ -69,13 +91,13 @@ fun SettingsContent(
             title = "Preencher Login",
             summary = "Preencher login na tela inicial",
             onClick = {
-                // Ação opcional ao clicar no item
+                onPreencherChange(!state.preencher)
             },
             control = {
                 Switch(
-                    checked = state.preencher, // Estado atual do switch
-                    onCheckedChange = { newValue ->
-                        viewModel.updatePreencher(newValue) // Atualiza o ViewModel
+                    checked = state.preencher,
+                    onCheckedChange = {
+                        onPreencherChange(it)
                     }
                 )
             }
@@ -86,5 +108,10 @@ fun SettingsContent(
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
-    SettingsScreen(null)
+    SettingsScreenContent(
+        state = PreferencesState(login = "devtitans", password = "123", preencher = true),
+        onLoginChange = {},
+        onPasswordChange = {},
+        onPreencherChange = {}
+    )
 }
