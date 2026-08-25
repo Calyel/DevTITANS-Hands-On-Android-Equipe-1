@@ -34,6 +34,7 @@ fun PlainTextApp(
                 navigateToLogin = { appState.navigateToLogin() }
             )
         }
+
         composable<Screen.Preferences>{
             SettingsScreen(navController = appState.navController)
         }

@@ -110,6 +110,7 @@ fun EditList(
                         password = state.senhaState.value,
                         notes = state.notasState.value
                     )
+
                     savePassword(updatedPassword)
                     navigateBack()
                 },
