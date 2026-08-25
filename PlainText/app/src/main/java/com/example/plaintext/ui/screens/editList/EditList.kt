@@ -1,12 +1,10 @@
 package com.example.plaintext.ui.screens.editList
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,8 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -40,6 +36,7 @@ import com.example.plaintext.data.model.PasswordInfo
 import com.example.plaintext.ui.screens.Screen
 import com.example.plaintext.ui.screens.login.TopBarComponent
 import com.example.plaintext.ui.theme.GreenBanner
+import com.example.plaintext.ui.theme.PlainTextTheme
 
 data class EditListState(
     val nomeState: MutableState<String>,
@@ -49,7 +46,7 @@ data class EditListState(
 )
 
 fun isPasswordEmpty(password: PasswordInfo): Boolean {
-    return password.name.isEmpty() && password.login.isEmpty() && password.password.isEmpty() && password.notes.isEmpty()
+    return password.id == 0 && password.name.isEmpty() && password.login.isEmpty() && password.password.isEmpty() && password.notes?.isEmpty() == true
 }
 
 @Composable
@@ -58,13 +55,12 @@ fun EditList(
     navigateBack: () -> Unit,
     savePassword: (password: PasswordInfo) -> Unit
 ) {
-
     val state = remember {
         EditListState(
             nomeState = mutableStateOf(args.password.name),
             usuarioState = mutableStateOf(args.password.login),
             senhaState = mutableStateOf(args.password.password),
-            notasState = mutableStateOf(args.password.notes)
+            notasState = mutableStateOf(args.password.notes ?: "")
         )
     }
 
@@ -76,7 +72,6 @@ fun EditList(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -84,7 +79,6 @@ fun EditList(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,13 +86,8 @@ fun EditList(
                     .padding(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
-                    text = if (isNew) {
-                        "Adicionar nova senha"
-                    } else {
-                        "Editar senha"
-                    },
+                    text = if (isNew) "Adicionar nova senha" else "Editar senha",
                     color = Color.White,
                     fontSize = 20.sp
                 )
@@ -106,32 +95,15 @@ fun EditList(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            EditInput(
-                textInputLabel = "Nome",
-                textInputState = state.nomeState
-            )
-
-            EditInput(
-                textInputLabel = "Usuário",
-                textInputState = state.usuarioState
-            )
-
-            EditInput(
-                textInputLabel = "Senha",
-                textInputState = state.senhaState
-            )
-
-            EditInput(
-                textInputLabel = "Notas",
-                textInputState = state.notasState,
-                textInputHeight = 150
-            )
+            EditInput(textInputLabel = "Nome", textInputState = state.nomeState)
+            EditInput(textInputLabel = "Usuário", textInputState = state.usuarioState)
+            EditInput(textInputLabel = "Senha", textInputState = state.senhaState)
+            EditInput(textInputLabel = "Notas", textInputState = state.notasState, textInputHeight = 150)
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = {
-
                     val updatedPassword = args.password.copy(
                         name = state.nomeState.value,
                         login = state.usuarioState.value,
@@ -150,7 +122,6 @@ fun EditList(
                 ),
                 shape = RoundedCornerShape(25.dp)
             ) {
-
                 Text(
                     text = "Salvar",
                     color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -194,11 +165,25 @@ fun EditInput(
 @Preview(showBackground = true)
 @Composable
 fun EditListPreview() {
-    EditList(
-        Screen.EditList(PasswordInfo(1, "Nome", "Usuário", "Senha", "Notas")),
-        navigateBack = {},
-        savePassword = {}
-    )
+    PlainTextTheme {
+        EditList(
+            Screen.EditList(PasswordInfo(1, "Facebook", "devtitans", "Senha", "Notas")),
+            navigateBack = {},
+            savePassword = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AddListPreview() {
+    PlainTextTheme {
+        EditList(
+            Screen.EditList(PasswordInfo()),
+            navigateBack = {},
+            savePassword = {}
+        )
+    }
 }
 
 @Preview(showBackground = true)

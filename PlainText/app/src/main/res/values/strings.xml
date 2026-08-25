@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">PlainText</string>
     <string name="login">"Login: "</string>
+    <string name="password">"Senha: "</string>
+    <string name="title_login">"Digite suas credenciais para continuar"</string>
+    <string name="save_information_login_text">"Salvar as informações de login"</string>
+    <string name="text_button_send">"Enviar"</string>
+    <string name="banner_title">"The most secure password manager"</string>
+    <string name="banner_subtitle">"Bob and Alice"</string>
+    <string name="invalid_credentials">"Login/Senha inválidos!"</string>
 </resources>
