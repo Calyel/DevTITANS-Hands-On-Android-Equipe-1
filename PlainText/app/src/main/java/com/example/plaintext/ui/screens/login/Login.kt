@@ -32,6 +32,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -64,9 +65,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.plaintext.ui.theme.PlainTextTheme
 import com.example.plaintext.ui.viewmodel.LoginViewModel
 import com.example.plaintext.ui.viewmodel.PreferencesViewModel
-import com.example.plaintext.ui.viewmodel.LoginState
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.plaintext.ui.theme.PlainTextTheme
 
 private val DarkBrown = Color(0xFF1B120F)
 private val WarmBrown = Color(0xFF2A1A14)
@@ -464,14 +462,16 @@ fun TopBarComponent(
 fun LoginScreenPreview() {
     PlainTextTheme {
         LoginScreenContent(
-            loginState = LoginState(
-                preencher = true,
-                login = "devtitans",
-                navigateToSettings = {},
-                navigateToList = {},
-                navigateToLogin = {},
-                checkCredentials = { _, _ -> true }
-            )
+            login = "",
+            password = "",
+            preencher = true,
+            loginError = false,
+            passwordError = false,
+            onLoginChange = {  },
+            onPasswordChange = {},
+            onPreencherChange = {},
+            onSubmit = { },
+            navigateToSettings = {}
         )
     }
 }
