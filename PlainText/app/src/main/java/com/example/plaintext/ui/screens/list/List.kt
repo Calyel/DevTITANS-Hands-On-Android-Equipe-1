@@ -44,10 +44,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.plaintext.data.model.PasswordInfo
 
+
 @Composable
 fun ListView(
-) {}
-
+    viewModel: ListViewModel = hiltViewModel(),
+    navigateToEdit: (password: PasswordInfo) -> Unit = {},
+    navigateToAdd: () -> Unit = {}
+) {
+    Scaffold(
+        topBar = {
+            TopBarComponent()
+        },
+        floatingActionButton = {
+            AddButton(onClick = navigateToAdd)
+        }
+    ) { paddingValues ->
+        ListItemContent(
+            modifier = Modifier.padding(paddingValues),
+            listState = viewModel.listViewState,
+            navigateToEdit = navigateToEdit
+        )
+    }
+}
+ 
 @Composable
 fun AddButton(onClick: () -> Unit) {
     FloatingActionButton(
@@ -58,7 +77,7 @@ fun AddButton(onClick: () -> Unit) {
         Icon(Icons.Filled.Add, "Small floating action button.")
     }
 }
-
+ 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListItemContent(
@@ -70,7 +89,7 @@ fun ListItemContent(
             !listState.isCollected -> {
                 LoadingScreen()
             }
-
+ 
             else -> {
                 LazyColumn(
                     modifier = modifier
@@ -86,7 +105,7 @@ fun ListItemContent(
             }
         }
 }
-
+ 
 @Composable
 fun LoadingScreen() {
     Row(
@@ -97,7 +116,7 @@ fun LoadingScreen() {
         Text("Carregando")
     }
 }
-
+ 
 @Composable
 fun ListItem(
     password: PasswordInfo,
@@ -105,7 +124,7 @@ fun ListItem(
 ) {
     val title = password.name
     val subTitle = password.login
-
+ 
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,4 +152,3 @@ fun ListItem(
         )
     }
 }
-
