@@ -92,12 +92,6 @@ class JetcasterAppState(
             navController.navigate(Screen.EditList(password))
         }
     }
-
-    // NOVA FUNÇÃO PARA NAVEGAR PARA PREFERÊNCIAS
-    fun navigateToPreferences(){
-        navController.navigate(Screen.Preferences)
-    }
-
 }
 
 /**
