@@ -4,10 +4,11 @@
 Este é o projeto Hands-On de Android da equipe 1, desenvolvido como parte do curso. O objetivo é implementar um aplicativo de gerenciamento de senhas (PlainText App) usando **Kotlin** e **Jetpack Compose**.
 
 ## 👥 Equipe
-- **Marciano Campos** - Preferências e Integração com Login
-- **Emerson Sena** - Telas e Autenticação
-- **Gabrielly** - Banco de Dados
-- **Kevin Freitas** - EditList e Navegação
+- **Calyel Junio** - LoginScreen ViewModel, LoginScreen ViewModel
+- **Marciano Campos** - Preferências ViewModel, Navegação, Composable e Integração com Login
+- **Emerson Sena** - Autenticação , Banco de dados das Senhas e List Navegação
+- **Gabrielly Ferreira** - List Composable e List ViewModel
+- **Kevin Carlos** - EditList Composable  e EditList Navegação 
 
 ## 🛠️ Tecnologias Utilizadas
 - **Kotlin** - Linguagem principal
