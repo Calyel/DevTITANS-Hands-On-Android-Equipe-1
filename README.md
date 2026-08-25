@@ -35,5 +35,5 @@ PlainText/
 ## 📋 Status do Projeto
 - ✅ Preferências (ViewModel, Navegação, Composable)
 - ✅ Autenticação e Telas
-- ⬜ Lista de Senhas
+- ✅ Lista de Senhas
 - ✅ Banco de Dados
