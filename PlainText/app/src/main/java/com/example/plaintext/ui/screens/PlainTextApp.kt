@@ -35,7 +35,7 @@ fun PlainTextApp(
             )
         }
         composable<Screen.Preferences>{
-            com.example.plaintext.ui.screens.preferences.SettingsScreen(navController = appState.navController)
+            SettingsScreen(navController = appState.navController)
         }
         composable<Screen.EditList>(
             typeMap = mapOf(typeOf<PasswordInfo>() to parcelableType<PasswordInfo>())
