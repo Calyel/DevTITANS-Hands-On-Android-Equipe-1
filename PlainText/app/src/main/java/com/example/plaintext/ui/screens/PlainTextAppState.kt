@@ -70,9 +70,12 @@ class JetcasterAppState(
         navController.navigate(Screen.Login)
     }
 
-    // NOVA FUNÇÃO PARA NAVEGAR PARA PREFERÊNCIAS
     fun navigateToPreferences(){
         navController.navigate(Screen.Preferences)
+    }
+
+    fun navigateToList(){
+        navController.navigate(Screen.List)
     }
 
 }

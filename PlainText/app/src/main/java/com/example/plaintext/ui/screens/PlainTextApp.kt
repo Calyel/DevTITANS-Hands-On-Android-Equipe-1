@@ -29,7 +29,7 @@ fun PlainTextApp(
 ) {
     NavHost(
         navController = appState.navController,
-        startDestination = Screen.Hello("DevTITANS"),
+        startDestination = Screen.Login,
     )
     {
         composable<Screen.Hello>{
@@ -39,12 +39,11 @@ fun PlainTextApp(
         composable<Screen.Login>{
             Login_screen(
                 navigateToSettings = {
-                    // Navega para a tela de Preferências
                     appState.navigateToPreferences()
                 },
                 navigateToList = {
-                    // Navega para a tela de Lista (quando implementada)
-                }
+                    appState.navigateToList()
+                },
             )
         }
         composable<Screen.EditList>(

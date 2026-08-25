@@ -1,4 +1,4 @@
-# DevTITANS Hands-On Android - Equipe 1
+    # DevTITANS Hands-On Android - Equipe 1
 
 ## 📱 Sobre o Projeto
 Este é o projeto Hands-On de Android da equipe 1, desenvolvido como parte do curso. O objetivo é implementar um aplicativo de gerenciamento de senhas (PlainText App) usando **Kotlin** e **Jetpack Compose**.
