@@ -36,9 +36,4 @@ class PreferencesViewModel @Inject constructor(
     fun updatePreencher(preencher: Boolean) {
         repository.updatePreencher(preencher)
     }
-
-    // Função para validar credenciais (usada na tela de login)
-    fun checkCredentials(login: String, password: String): Boolean {
-        return login == preferencesState.login && password == preferencesState.password
-    }
 }
