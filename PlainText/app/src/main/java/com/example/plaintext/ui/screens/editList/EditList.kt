@@ -45,10 +45,6 @@ data class EditListState(
     val notasState: MutableState<String>,
 )
 
-fun isPasswordEmpty(password: PasswordInfo): Boolean {
-    return password.id == 0 && password.name.isEmpty() && password.login.isEmpty() && password.password.isEmpty() && password.notes?.isEmpty() == true
-}
-
 @Composable
 fun EditList(
     args: Screen.EditList,
@@ -64,7 +60,7 @@ fun EditList(
         )
     }
 
-    val isNew = isPasswordEmpty(args.password)
+    val isNew = args.password.id == 0
 
     Scaffold(
         topBar = {
@@ -146,9 +142,7 @@ fun EditInput(
         modifier = Modifier
             .fillMaxWidth()
             .height(textInputHeight.dp)
-            .padding(horizontal = padding.dp),
-        horizontalArrangement = Arrangement.Center,
-    ) {
+            .padding(horizontal = padding.dp), horizontalArrangement = Arrangement.Center,) {
         OutlinedTextField(
             value = textState,
             onValueChange = { textState = it },

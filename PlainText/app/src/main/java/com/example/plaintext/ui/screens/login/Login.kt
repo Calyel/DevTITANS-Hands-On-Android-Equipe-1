@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -62,6 +63,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.plaintext.R
 import com.example.plaintext.ui.theme.PlainTextTheme
 import com.example.plaintext.ui.viewmodel.LoginViewModel
 import com.example.plaintext.ui.viewmodel.PreferencesViewModel
@@ -109,7 +111,7 @@ fun Login_screen(
             if (viewModel.submit(preferencesState.login, preferencesState.password)) {
                 navigateToList()
             } else {
-                Toast.makeText(context, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.invalid_credentials), Toast.LENGTH_SHORT).show()
             }
         },
         navigateToSettings = navigateToSettings,
@@ -169,14 +171,14 @@ private fun LoginScreenContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "Bem-vindo de volta",
+                            text = stringResource(R.string.welcome_to_back),
                             color = Color.White,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.SemiBold,
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Digite suas credenciais para continuar",
+                            text = stringResource(R.string.title_login),
                             color = TextMuted,
                             textAlign = TextAlign.Center,
                             fontSize = 14.sp,
@@ -186,26 +188,26 @@ private fun LoginScreenContent(
                         Spacer(modifier = Modifier.height(28.dp))
 
                         LoginField(
-                            label = "Login",
+                            label = stringResource(R.string.login),
                             value = login,
                             onValueChange = onLoginChange,
                             leadingIcon = Icons.Default.Person,
                             borderColor = if (loginError) ErrorRed else Peach,
                             isError = loginError,
-                            errorMessage = if (loginError) "Login inválido" else null,
+                            errorMessage = if (loginError) stringResource(R.string.login_invalid_error) else null,
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
                         LoginField(
-                            label = "Senha",
+                            label = stringResource(R.string.password),
                             value = password,
                             onValueChange = onPasswordChange,
                             leadingIcon = Icons.Default.Lock,
                             borderColor = if (passwordError) ErrorRed else FieldBorderGray,
                             isPassword = true,
                             isError = passwordError,
-                            errorMessage = if (passwordError) "Senha inválida" else null,
+                            errorMessage = if (passwordError) stringResource(R.string.password_invalid_error) else null,
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -224,7 +226,7 @@ private fun LoginScreenContent(
                                 ),
                             )
                             Text(
-                                text = "Salvar as informações de login",
+                                text = stringResource(R.string.save_information_login_text),
                                 color = TextMuted,
                                 fontSize = 14.sp,
                             )
@@ -244,7 +246,7 @@ private fun LoginScreenContent(
                                 .height(52.dp),
                         ) {
                             Text(
-                                text = "Enviar",
+                                text = stringResource(R.string.text_button_send),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold,
                             )
@@ -255,7 +257,7 @@ private fun LoginScreenContent(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = "\"The most secure password manager\"",
+                    text = "\"${stringResource(R.string.banner_title)}\"",
                     color = TextMuted.copy(alpha = 0.7f),
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
@@ -290,7 +292,7 @@ private fun LoginBranding() {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "PlainText",
+            text = stringResource(R.string.app_name),
             color = Color.White,
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
@@ -298,7 +300,7 @@ private fun LoginBranding() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Gerenciador de senhas seguro",
+            text = stringResource(R.string.banner_subtitle),
             color = Peach.copy(alpha = 0.85f),
             fontSize = 14.sp,
         )
@@ -433,9 +435,7 @@ fun TopBarComponent(
                         )
                     }
                     DropdownMenuItem(
-                        text = {
-                            Text("Sobre")
-                        },
+                        text = { Text("Sobre") },
                         onClick = {
                             shouldShowDialog.value = true
                             expanded = false
