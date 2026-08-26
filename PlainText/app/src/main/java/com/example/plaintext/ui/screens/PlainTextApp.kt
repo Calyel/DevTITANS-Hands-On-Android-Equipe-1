@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import com.example.plaintext.data.model.PasswordInfo
 import com.example.plaintext.ui.screens.editList.EditList
 import com.example.plaintext.ui.screens.hello.Hello_screen
+import com.example.plaintext.ui.screens.list.ListView
 import com.example.plaintext.ui.screens.login.Login_screen
 import com.example.plaintext.ui.screens.preferences.SettingsScreen
 import com.example.plaintext.ui.viewmodel.ListViewModel
@@ -30,8 +31,7 @@ fun PlainTextApp(
         composable<Screen.Login>{
             Login_screen(
                 navigateToSettings = { appState.navigateToPreferences() },
-                navigateToList = { name -> appState.navigateToList() },
-                navigateToLogin = { appState.navigateToLogin() }
+                navigateToList = { appState.navigateToList() },
             )
         }
 
@@ -50,16 +50,15 @@ fun PlainTextApp(
             )
         }
         composable<Screen.List> {
-            com.example.plaintext.ui.screens.list.ListView(
+            ListView(
                 navigateToEdit = { password -> appState.navigateToEditList(password) },
                 navigateToSettings = { appState.navigateToPreferences() },
                 navigateToSensors = { appState.navigateToSensors() },
                 navigateToLogin = { appState.navigateToLogin() }
             )
         }
-        // NOVA ROTA PARA PREFERÊNCIAS
-        composable<Screen.Preferences> {
-            SettingsScreen(navController = appState.navController)
+        composable<Screen.sensors> {
+            androidx.compose.material3.Text("Tela de Sensores")
         }
     }
 }

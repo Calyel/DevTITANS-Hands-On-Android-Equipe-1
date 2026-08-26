@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ListViewState(
-    var passwordList: List<PasswordInfo>,
-    var isCollected: Boolean = false
+    val passwordList: List<PasswordInfo> = emptyList(),
+    val isCollected: Boolean = false
 )
  
 //Utilize o passwordBDStore para obter a lista de senhas e salva-las
